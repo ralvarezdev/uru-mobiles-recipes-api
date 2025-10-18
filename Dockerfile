@@ -22,7 +22,7 @@ RUN if [ -f /app/.env ]; then dos2unix /app/.env; fi
 RUN dos2unix /app/compile.sh /app/serve.sh /app/generate_docs.sh
 
 # Make sure the compile and serve scripts are executables
-RUN chmod +x /app/compile.sh +x /app/serve.sh +x /app/generate_docs.sh
+RUN chmod +x /app/compile.sh /app/serve.sh /app/generate_docs.sh
 
 # Install Go Swagger for API documentation generation
 RUN go install github.com/swaggo/swag/cmd/swag@latest
