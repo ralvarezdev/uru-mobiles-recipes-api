@@ -69,7 +69,7 @@ func init() {
 
 	// Call the load functions
 	internallogger.Load(ModeFlag)
-	internalloader.Load(internallogger.Logger)
+	internalloader.Load(ModeFlag, internallogger.Logger)
 	internalcookie.Load(ModeFlag)
 	internaljson.Load(ModeFlag)
 	internalprotojson.Load(ModeFlag)
