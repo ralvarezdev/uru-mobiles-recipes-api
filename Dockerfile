@@ -13,12 +13,14 @@ ENV PORT=${PORT}
 # Add GitHub token secret for private repo access
 RUN --mount=type=secret,id=GITHUB_TOKEN \
     GITHUB_TOKEN=$(cat /run/secrets/GITHUB_TOKEN) && \
-    git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/" && \
-    git pull --rebase
+    git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/" \
 
 # Set the Current Working Directory inside the container and add source files
 WORKDIR /app
 COPY . /app
+
+# Pull rebase to get on the latest commit
+RUN git pull --rebase
 
 # Make sure the scripts and .env file have LF line endings
 RUN apk add --no-cache dos2unix
