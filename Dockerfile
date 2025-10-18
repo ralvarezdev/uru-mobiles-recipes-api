@@ -33,7 +33,7 @@ RUN chmod +x /app/serve.sh
 RUN chmod +x /app/generate_docs.sh
 
 # Install Go Swagger for API documentation generation
-go install github.com/swaggo/swag/cmd/swag@latest
+RUN go install github.com/swaggo/swag/cmd/swag@latest
 
 # Generate API documentation
 RUN /app/generate_docs.sh
