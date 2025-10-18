@@ -8,7 +8,7 @@ import (
 	godatabasessql "github.com/ralvarezdev/go-databases/sql"
 	gojwtrabbitmqconsumer "github.com/ralvarezdev/go-jwt/rabbitmq/consumer"
 	gojwtrabbitmqconsumersql "github.com/ralvarezdev/go-jwt/rabbitmq/consumer/sql"
-	internalloader "github.com/ralvarezdev/rest-auth/internal/loader"
+	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
 )
 
 const (

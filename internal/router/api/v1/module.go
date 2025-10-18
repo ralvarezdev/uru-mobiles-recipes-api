@@ -2,8 +2,8 @@ package v1
 
 import (
 	gonethttp "github.com/ralvarezdev/go-net/http"
-	internalrouterapiv1auth "github.com/ralvarezdev/rest-auth/internal/router/api/v1/auth"
-	internalrouterapiv1user "github.com/ralvarezdev/rest-auth/internal/router/api/v1/user"
+	internalrouterapiv1auth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/router/api/v1/auth"
+	internalrouterapiv1user "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/router/api/v1/user"
 )
 
 var (

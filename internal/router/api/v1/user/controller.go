@@ -9,9 +9,9 @@ import (
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
-	internalgrpcauth "github.com/ralvarezdev/rest-auth/internal/grpc/auth"
-	internaljson "github.com/ralvarezdev/rest-auth/internal/json"
-	internalprotojson "github.com/ralvarezdev/rest-auth/internal/protojson"
+	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
+	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
+	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
 	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -28,7 +28,7 @@ type (
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.UpdateProfileRequest true "Update Profile Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -113,7 +113,7 @@ func (c controller) GetMyProfile(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.ChangeUsernameRequest true "Change Username Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -158,7 +158,7 @@ func (c controller) ChangeUsername(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.DeleteUserRequest true "Delete User Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody

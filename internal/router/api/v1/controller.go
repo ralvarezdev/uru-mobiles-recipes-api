@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
-	internaljson "github.com/ralvarezdev/rest-auth/internal/json"
+	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
 )
 
 type (
@@ -18,7 +18,7 @@ type (
 // @Tags api v1
 // @Accept json
 // @Produce json
-// @Success 200 {object} gonethttpresponse.JSendSuccessBody
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Router /api/v1/ping [get]
 func (c controller) Ping(w http.ResponseWriter, r *http.Request) error {
 	// Handle the response

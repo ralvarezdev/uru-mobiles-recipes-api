@@ -4,7 +4,7 @@ import (
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
 	gojwttokenclaims "github.com/ralvarezdev/go-jwt/token/claims"
 	gojwttokenvalidator "github.com/ralvarezdev/go-jwt/token/validator"
-	internalloader "github.com/ralvarezdev/rest-auth/internal/loader"
+	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
 )
 
 const (

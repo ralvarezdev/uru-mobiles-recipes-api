@@ -1,20 +1,23 @@
-module github.com/ralvarezdev/recipes-api
+module github.com/ralvarezdev/uru-mobiles-recipes-api
 
 go 1.25.1
 
 require (
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/joho/godotenv v1.5.1
+	github.com/mattn/go-sqlite3 v1.14.32
+	github.com/rabbitmq/amqp091-go v1.10.0
+	github.com/ralvarezdev/go-databases v0.7.3
 	github.com/ralvarezdev/go-flags v0.3.8
 	github.com/ralvarezdev/go-grpc v0.5.5
-	github.com/ralvarezdev/go-jwt v0.6.10
+	github.com/ralvarezdev/go-jwt v0.6.11
 	github.com/ralvarezdev/go-loader v0.2.20
 	github.com/ralvarezdev/go-net v0.12.6
-	github.com/ralvarezdev/go-security-headers v0.1.3
-	github.com/swaggo/swag v1.16.6
-	github.com/go-redis/redis/v8 v8.11.5
-	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/ralvarezdev/go-rate-limiter v0.1.9
+	github.com/ralvarezdev/go-security-headers v0.1.3
 	github.com/ralvarezdev/grpc-auth-proto-go v0.1.9
+	github.com/swaggo/http-swagger v1.3.4
+	github.com/swaggo/swag v1.16.6
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
 )
@@ -36,13 +39,14 @@ require (
 	github.com/go-openapi/swag/yamlutils v0.25.1 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
 	github.com/ralvarezdev/go-api-key v0.1.3 // indirect
-	github.com/ralvarezdev/go-databases v0.7.3 // indirect
 	github.com/ralvarezdev/go-json v0.1.2 // indirect
 	github.com/ralvarezdev/go-reflect v0.2.11 // indirect
 	github.com/ralvarezdev/go-strings v0.1.16 // indirect
 	github.com/ralvarezdev/go-validator v0.6.14 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
+	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/net v0.46.0 // indirect
 	golang.org/x/oauth2 v0.31.0 // indirect

@@ -3,8 +3,10 @@ package router
 import (
 	gonethttp "github.com/ralvarezdev/go-net/http"
 	gosecurityheadersnethttp "github.com/ralvarezdev/go-security-headers/net/http"
-	internalmiddleware "github.com/ralvarezdev/rest-auth/internal/middleware"
-	internalrouterapi "github.com/ralvarezdev/rest-auth/internal/router/api"
+	_ "github.com/ralvarezdev/uru-mobiles-recipes-api/docs"
+	internalmiddleware "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/middleware"
+	internalrouterapi "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/router/api"
+	internalrouterdocs "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/router/docs"
 )
 
 var (
@@ -20,6 +22,7 @@ var (
 		},
 		Submodules: gonethttp.NewSubmodules(
 			internalrouterapi.Module,
+			internalrouterdocs.Module,
 		),
 	}
 )

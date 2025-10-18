@@ -9,9 +9,9 @@ import (
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
-	internalgrpcauth "github.com/ralvarezdev/rest-auth/internal/grpc/auth"
-	internaljson "github.com/ralvarezdev/rest-auth/internal/json"
-	internalprotojson "github.com/ralvarezdev/rest-auth/internal/protojson"
+	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
+	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
+	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
 	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -27,7 +27,7 @@ type (
 // @Accept json
 // @Produce json
 // @Param request body pbauth.SignUpRequest true "Sign Up Request"
-// @Success 201 {object} gonethttpresponsejsend.SuccessBody[pbauth.SignUpResponse]
+// @Success 201 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/signup [post]
@@ -59,7 +59,7 @@ func (c controller) SignUp(w http.ResponseWriter, r *http.Request) error {
 // @Accept json
 // @Produce json
 // @Param request body pbauth.LogInRequest true "Log In Request"
-// @Success 201 {object} LogInResponseBody[pbauth.LogInResponse]
+// @Success 201 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -205,7 +205,7 @@ func (c controller) GetRefreshToken(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.RevokeRefreshTokenRequest true "Revoke Refresh Token Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 404 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -259,7 +259,7 @@ func (c controller) RevokeRefreshToken(
 // @Accept json
 // @Produce json
 // @Security CookieAuth
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/logout [post]
@@ -306,7 +306,7 @@ func (c controller) LogOut(w http.ResponseWriter, r *http.Request) error {
 // @Accept json
 // @Produce json
 // @Security CookieAuth
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-tokens [delete]
@@ -356,7 +356,7 @@ func (c controller) RevokeRefreshTokens(
 // @Accept json
 // @Produce json
 // @Security CookieAuth
-// @Success 201 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 201 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-token [post]
@@ -447,7 +447,7 @@ func (c controller) Generate2FATOTPUrl(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.Verify2FATOTPRequest true "Verify 2FA TOTP Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -493,7 +493,7 @@ func (c controller) Verify2FATOTP(
 // @Accept json
 // @Produce json
 // @Security CookieAuth
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/totp [delete]
@@ -536,7 +536,7 @@ func (c controller) Revoke2FATOTP(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.ChangeEmailRequest true "Change Email Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -582,7 +582,7 @@ func (c controller) ChangeEmail(
 // @Accept json
 // @Produce json
 // @Security CookieAuth
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -626,7 +626,7 @@ func (c controller) SendEmailVerificationToken(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.VerifyEmailRequest true "Verify Email Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/email/verify [post]
@@ -672,7 +672,7 @@ func (c controller) VerifyEmail(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.ChangePasswordRequest true "Change Password Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -719,7 +719,7 @@ func (c controller) ChangePassword(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.ForgotPasswordRequest true "Forgot Password Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -766,7 +766,7 @@ func (c controller) ForgotPassword(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.ResetPasswordRequest true "Reset Password Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/password/reset [post]
@@ -812,7 +812,7 @@ func (c controller) ResetPassword(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.ChangePhoneNumberRequest true "Change Phone Number Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -858,7 +858,7 @@ func (c controller) ChangePhoneNumber(
 // @Accept json
 // @Produce json
 // @Security CookieAuth
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -902,7 +902,7 @@ func (c controller) SendPhoneNumberVerificationCode(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.VerifyPhoneNumberRequest true "Verify Phone Number Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -998,7 +998,7 @@ func (c controller) EnableUser2FA(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.DisableUser2FARequest true "Disable User 2FA Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
@@ -1093,7 +1093,7 @@ func (c controller) RegenerateUser2FARecoveryCodes(
 // @Produce json
 // @Security CookieAuth
 // @Param request body pbauth.SendUser2FAEmailCodeRequest true "Send User 2FA Email Code Request"
-// @Success 200 {object} gonethttpresponsejsend.SuccessBody[nil]
+// @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody

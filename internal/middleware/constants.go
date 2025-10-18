@@ -19,8 +19,8 @@ import (
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	goratelimiter "github.com/ralvarezdev/go-rate-limiter/redis"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go"
-	internalgrpcauth "github.com/ralvarezdev/rest-auth/internal/grpc/auth"
-	internalloader "github.com/ralvarezdev/rest-auth/internal/loader"
+	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
+	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
 	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 

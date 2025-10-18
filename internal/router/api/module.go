@@ -2,7 +2,7 @@ package api
 
 import (
 	gonethttp "github.com/ralvarezdev/go-net/http"
-	internalrouterapiv1 "github.com/ralvarezdev/rest-auth/internal/router/api/v1"
+	internalrouterapiv1 "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/router/api/v1"
 )
 
 var (
