@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"log/slog"
+	"strings"
 
 	godatabasessql "github.com/ralvarezdev/go-databases/sql"
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
@@ -49,6 +50,7 @@ func Load(
 	); err != nil {
 		panic(err)
 	}
+	JWTPublicKey = strings.ReplaceAll(JWTPublicKey, `\n`, "\n")
 
 	// Initialize the JWT token validator with SQLite
 	tokenValidator, err := gojwttokenclaimssqlite.NewTokenValidator(
