@@ -19,9 +19,6 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 WORKDIR /app
 COPY . /app
 
-# Pull rebase to get on the latest commit
-RUN git pull --rebase
-
 # Make sure the scripts and .env file have LF line endings
 RUN apk add --no-cache dos2unix
 RUN if [ -f /app/.env ]; then dos2unix /app/.env; fi
