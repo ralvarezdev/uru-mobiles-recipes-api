@@ -3,6 +3,9 @@ FROM golang:alpine AS builder
 # Install git to fetch dependencies and protoc for compiling .proto files
 RUN apk add --no-cache git
 
+# Install Go for building the application
+RUN apk add --no-cache go
+
 # Add port argument
 ARG PORT=8080
 ENV PORT=${PORT}
