@@ -5,14 +5,8 @@ if exist .env (
     call :loadenv .env
 )
 
-REM Check if port is provided via environment variables
-if "%PORT%"=="" (
-    echo Error: No port specified.
-    exit /b 1
-)
-
 REM Execute the Go binary on port specified
-.\bin\server\server.exe -mode=prod -port=%PORT%
+.\bin\server\server.exe -mode=prod -port=8080
 exit /b
 
 :loadenv

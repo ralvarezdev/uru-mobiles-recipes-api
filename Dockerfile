@@ -3,10 +3,6 @@ FROM golang:alpine AS builder
 # Install git to fetch dependencies and protoc for compiling .proto files
 RUN apk add --no-cache git
 
-# Add port argument
-ARG PORT=8080
-ENV PORT=${PORT}
-
 # Add GitHub token secret for private repo access
 RUN --mount=type=secret,id=GITHUB_TOKEN \
     GITHUB_TOKEN=$(cat /run/secrets/GITHUB_TOKEN) && \
@@ -44,7 +40,7 @@ WORKDIR /app
 COPY --from=builder /app .
 
 # Expose port to the outside world
-EXPOSE ${PORT}
+EXPOSE 8080
 
 # Run the Go app when the container launches
 ENTRYPOINT ["/app/serve.sh"]
