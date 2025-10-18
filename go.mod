@@ -10,12 +10,12 @@ require (
 	github.com/ralvarezdev/go-databases v0.7.4
 	github.com/ralvarezdev/go-flags v0.3.8
 	github.com/ralvarezdev/go-grpc v0.5.5
-	github.com/ralvarezdev/go-jwt v0.6.11
+	github.com/ralvarezdev/go-jwt v0.7.0
 	github.com/ralvarezdev/go-loader v0.2.20
 	github.com/ralvarezdev/go-net v0.12.6
 	github.com/ralvarezdev/go-rate-limiter v0.1.9
 	github.com/ralvarezdev/go-security-headers v0.1.3
-	github.com/ralvarezdev/grpc-auth-proto-go v0.1.9
+	github.com/ralvarezdev/grpc-auth-proto-go v0.1.12
 	github.com/swaggo/http-swagger v1.3.4
 	github.com/swaggo/swag v1.16.6
 	google.golang.org/grpc v1.76.0

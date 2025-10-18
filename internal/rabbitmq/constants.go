@@ -5,9 +5,8 @@ import (
 	"time"
 
 	"github.com/rabbitmq/amqp091-go"
-	godatabasessql "github.com/ralvarezdev/go-databases/sql"
 	gojwtrabbitmqconsumer "github.com/ralvarezdev/go-jwt/rabbitmq/consumer"
-	gojwtrabbitmqconsumersql "github.com/ralvarezdev/go-jwt/rabbitmq/consumer/sql"
+	gojwttokenclaims "github.com/ralvarezdev/go-jwt/token/claims"
 	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
 )
 
@@ -38,16 +37,17 @@ var (
 	// RabbitMQConsumer is the JWT RabbitMQ consumer
 	RabbitMQConsumer gojwtrabbitmqconsumer.Consumer
 
-	// RabbitMQService is the JWT RabbitMQ service
-	RabbitMQService gojwtrabbitmqconsumersql.Service
+	// RabbitMQConsumerService is the JWT RabbitMQ service
+	RabbitMQConsumerService gojwtrabbitmqconsumer.Service
 )
 
 // Load initializes the RabbitMQ constants
 //
 // Parameters:
 //
+//   - tokenValidator: The JWT token validator
 //   - logger: The logger (optional, can be nil)
-func Load(rabbitMQSQLHandler godatabasessql.Handler, logger *slog.Logger) {
+func Load(tokenValidator gojwttokenclaims.TokenValidator, logger *slog.Logger) {
 	// Load the environment variables
 	for env, dest := range map[string]*string{
 		EnvRabbitMQURL:            &RabbitMQURL,
@@ -81,14 +81,14 @@ func Load(rabbitMQSQLHandler godatabasessql.Handler, logger *slog.Logger) {
 	}
 	RabbitMQConsumer = rabbitMQConsumer
 
-	// Create the JWT RabbitMQ service
-	rabbitMQService, err := gojwtrabbitmqconsumersql.NewDefaultService(
-		rabbitMQSQLHandler,
+	// Create the JWT RabbitMQ consumer service
+	rabbitMQConsumerService, err := gojwtrabbitmqconsumer.NewDefaultService(
 		RabbitMQConsumer,
+		tokenValidator,
 		logger,
 	)
 	if err != nil {
 		panic(err)
 	}
-	RabbitMQService = rabbitMQService
+	RabbitMQConsumerService = rabbitMQConsumerService
 }

@@ -7,7 +7,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	godatabasessql "github.com/ralvarezdev/go-databases/sql"
 	gojwtsync "github.com/ralvarezdev/go-jwt/sync"
-	gojwtsyncsql "github.com/ralvarezdev/go-jwt/sync/sql"
+	gojwtsyncsqlite "github.com/ralvarezdev/go-jwt/sync/sqlite"
 )
 
 const (
@@ -44,8 +44,8 @@ var (
 		ConnectionMaxIdleTime: ConnectionMaxIdleTime,
 	}
 
-	// RabbitMQConsumerConfig is the RabbitMQ consumer config
-	RabbitMQConsumerConfig = godatabasessql.Config{
+	// TokenValidatorConfig is the token validator config
+	TokenValidatorConfig = godatabasessql.Config{
 		DriverName:            DriverName,
 		DataSourceName:        RabbitMQConsumerDataSourceName,
 		MaxOpenConnections:    MaxOpenConnections,
@@ -60,8 +60,8 @@ var (
 	// SyncService is the JWT sync service
 	SyncService gojwtsync.Service
 
-	// RabbitMQConsumerHandler is the RabbitMQ SQLite handler
-	RabbitMQConsumerHandler godatabasessql.Handler
+	// TokenValidatorHandler is the JWT token validator SQLite handler
+	TokenValidatorHandler godatabasessql.Handler
 )
 
 // Load initializes the SQLite handlers and services
@@ -80,7 +80,7 @@ func Load(logger *slog.Logger) {
 	SyncHandler = syncHandler
 
 	// Initialize the JWT sync service
-	syncService, err := gojwtsyncsql.NewDefaultService(
+	syncService, err := gojwtsyncsqlite.NewDefaultService(
 		SyncHandler,
 		logger,
 	)
@@ -89,12 +89,12 @@ func Load(logger *slog.Logger) {
 	}
 	SyncService = syncService
 
-	// Initialize the RabbitMQ consumer SQLite handler
-	rabbitMQConsumerHandler, err := godatabasessql.NewDefaultHandler(
-		&RabbitMQConsumerConfig,
+	// Initialize the token validator SQLite handler
+	tokenValidatorHandler, err := godatabasessql.NewDefaultHandler(
+		&TokenValidatorConfig,
 	)
 	if err != nil {
 		panic(err)
 	}
-	RabbitMQConsumerHandler = rabbitMQConsumerHandler
+	TokenValidatorHandler = tokenValidatorHandler
 }

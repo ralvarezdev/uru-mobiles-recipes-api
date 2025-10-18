@@ -14,7 +14,6 @@ import (
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
 	gogrpcclientinterceptorauthapikey "github.com/ralvarezdev/go-grpc/client/interceptor/auth/api_key"
 	gogrpcclientinterceptorauthjwt "github.com/ralvarezdev/go-grpc/client/interceptor/auth_verifier/jwt"
-	gojwtrabbitmq "github.com/ralvarezdev/go-jwt/rabbitmq"
 	gonetflagsport "github.com/ralvarezdev/go-net/flags/port"
 	gonethttproute "github.com/ralvarezdev/go-net/http/route"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go"
@@ -76,13 +75,14 @@ func init() {
 	internalprotojson.Load(ModeFlag)
 	internalredis.Load()
 	internalsqlite.Load(internallogger.Logger)
-	internalrabbitmq.Load(
-		internalsqlite.RabbitMQConsumerHandler,
-		internallogger.Logger,
-	)
 	internaljwt.Load(
 		ModeFlag,
-		internalrabbitmq.RabbitMQService,
+		internalsqlite.TokenValidatorHandler,
+		internallogger.Logger,
+	)
+	internalrabbitmq.Load(
+		internaljwt.TokenValidator,
+		internallogger.Logger,
 	)
 	internalmiddleware.Load(
 		internaljson.Handler,
@@ -171,7 +171,7 @@ func main() {
 
 	// Start the RabbitMQ service on a separate goroutine
 	go func() {
-		if err = internalrabbitmq.RabbitMQService.Start(
+		if err = internalrabbitmq.RabbitMQConsumerService.Start(
 			ctx,
 		); err != nil {
 			internallogger.Logger.Error(
@@ -221,24 +221,25 @@ func main() {
 		accessTokens := msg.GetAccessTokens()
 
 		// Insert the refresh tokens into the RabbitMQ service
-		if err = internalrabbitmq.RabbitMQService.InsertRefreshTokens(refreshTokens...); err != nil {
-			panic(err)
-		}
-
-		// Create the token pairs based on the order of the refresh tokens
-		var tokenPairs []gojwtrabbitmq.TokenPair
 		for i, refreshToken := range refreshTokens {
-			tokenPairs = append(
-				tokenPairs, gojwtrabbitmq.TokenPair{
-					RefreshTokenJTI: refreshToken,
-					AccessTokenJTI:  accessTokens[i],
-				},
-			)
-		}
+			if err = internalrabbitmq.RabbitMQConsumerService.AddRefreshToken(
+				refreshToken.GetId(),
+				refreshToken.GetExpiresAt().AsTime(),
+			); err != nil {
+				panic(err)
+			}
 
-		// Insert the access tokens into the RabbitMQ service
-		if err = internalrabbitmq.RabbitMQService.InsertAccessTokens(tokenPairs...); err != nil {
-			panic(err)
+			// Get the access token ID based on the index
+			accessToken := accessTokens[i]
+
+			// Insert the access tokens into the RabbitMQ service
+			if err = internalrabbitmq.RabbitMQConsumerService.AddAccessToken(
+				accessToken.GetId(),
+				refreshToken.GetId(),
+				accessToken.GetExpiresAt().AsTime(),
+			); err != nil {
+				panic(err)
+			}
 		}
 	}
 
