@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Generating Swagger docs..."
-"$HOME/go/bin/swag" init -g cmd/server/main.go --parseDependency --parseInternal
+swag init -g cmd/server/main.go --parseDependency --parseInternal
 echo "Generating Swagger docs... Done."

@@ -10,3 +10,6 @@ LICENSE
 # Ignore IDE files
 .vscode/
 .idea/
+
+# Ignore .bat scripts
+*.bat

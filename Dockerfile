@@ -3,9 +3,6 @@ FROM golang:alpine AS builder
 # Install git to fetch dependencies and protoc for compiling .proto files
 RUN apk add --no-cache git
 
-# Install Go for building the application
-RUN apk add --no-cache go
-
 # Add port argument
 ARG PORT=8080
 ENV PORT=${PORT}
@@ -22,19 +19,19 @@ COPY . /app
 # Make sure the scripts and .env file have LF line endings
 RUN apk add --no-cache dos2unix
 RUN if [ -f /app/.env ]; then dos2unix /app/.env; fi
-RUN dos2unix /app/compile.sh
-RUN dos2unix /app/serve.sh
-RUN dos2unix /app/generate_docs.sh
+RUN dos2unix /app/compile.sh /app/serve.sh /app/generate_docs.sh
 
 # Make sure the compile and serve scripts are executables
-RUN chmod +x /app/compile.sh
-RUN chmod +x /app/serve.sh
-RUN chmod +x /app/generate_docs.sh
+RUN chmod +x /app/compile.sh +x /app/serve.sh +x /app/generate_docs.sh
 
 # Install Go Swagger for API documentation generation
 RUN go install github.com/swaggo/swag/cmd/swag@latest
 
+# Go modules download
+RUN go mod download
+
 # Generate API documentation
+ENV PATH="/root/go/bin:${PATH}"
 RUN /app/generate_docs.sh
 
 # Compile the Go app
