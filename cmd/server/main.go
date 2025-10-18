@@ -8,7 +8,10 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"os"
+	"os/signal"
 	"path/filepath"
+	"syscall"
 	"time"
 
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
@@ -107,9 +110,13 @@ func init() {
 // @in							cookie
 // @name						access_token
 func main() {
-	// Create a global context
-	ctx := context.Background()
-	defer ctx.Done()
+	// Create a context that is canceled on SIGINT or SIGTERM
+	ctx, stop := signal.NotifyContext(
+		context.Background(),
+		os.Interrupt,
+		syscall.SIGTERM,
+	)
+	defer stop()
 
 	// Listen on the given port
 	portListener, err := net.Listen(
@@ -273,15 +280,24 @@ func main() {
 		panic(err)
 	}
 
-	// Serve the REST API server
-	internallogger.Logger.Info(
-		"REST API server started",
-		slog.Int("port", Port),
-	)
-	if err = http.ListenAndServe(
-		fmt.Sprintf(":%d", Port),
-		router.Handler(),
-	); err != nil {
-		panic(err)
-	}
+	go func() {
+		// Serve the REST API server
+		internallogger.Logger.Info(
+			"REST API server started",
+			slog.Int("port", Port),
+		)
+		if err = http.ListenAndServe(
+			fmt.Sprintf(":%d", Port),
+			router.Handler(),
+		); err != nil {
+			panic(err)
+		}
+	}()
+
+	// Wait for signal
+	<-ctx.Done()
+	internallogger.Logger.Info("Shutting down gracefully...")
+
+	// Optionally, wait a bit to finish ongoing requests
+	time.Sleep(5 * time.Second)
 }
