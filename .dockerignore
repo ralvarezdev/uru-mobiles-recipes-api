@@ -1,0 +1,12 @@
+# Ignore .env example file
+.env.example
+
+# Ignore compile directory
+bin/
+
+# Ignore license
+LICENSE
+
+# Ignore IDE files
+.vscode/
+.idea/
