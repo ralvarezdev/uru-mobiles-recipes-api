@@ -7,7 +7,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/rabbitmq/amqp091-go v1.10.0
-	github.com/ralvarezdev/go-databases v0.7.3
+	github.com/ralvarezdev/go-databases v0.7.4
 	github.com/ralvarezdev/go-flags v0.3.8
 	github.com/ralvarezdev/go-grpc v0.5.5
 	github.com/ralvarezdev/go-jwt v0.6.11
@@ -44,7 +44,7 @@ require (
 	github.com/ralvarezdev/go-strings v0.1.16 // indirect
 	github.com/ralvarezdev/go-validator v0.6.14 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
-	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
+	github.com/swaggo/files v1.0.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/mod v0.29.0 // indirect
