@@ -2,7 +2,7 @@ package router
 
 import (
 	gonethttp "github.com/ralvarezdev/go-net/http"
-	"github.com/swaggo/http-swagger"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 var (

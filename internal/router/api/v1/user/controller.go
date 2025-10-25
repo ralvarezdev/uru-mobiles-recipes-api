@@ -9,10 +9,11 @@ import (
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
+	pbempty "google.golang.org/protobuf/types/known/emptypb"
+
 	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
 	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
 	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
-	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 
 type (
@@ -38,7 +39,10 @@ func (c controller) UpdateProfile(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.UpdateProfileRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.UpdateProfileRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -59,7 +63,7 @@ func (c controller) UpdateProfile(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(nil, http.StatusOK),
+		w, r, gonethttpresponsejsend.NewSuccessResponse(nil, http.StatusOK),
 	)
 	return nil
 }
@@ -99,7 +103,7 @@ func (c controller) GetMyProfile(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w,
+		w, r,
 		gonethttpresponsejsend.NewSuccessResponse(responseBody, http.StatusOK),
 	)
 	return nil
@@ -123,7 +127,10 @@ func (c controller) ChangeUsername(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.ChangeUsernameRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.ChangeUsernameRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -144,7 +151,7 @@ func (c controller) ChangeUsername(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w,
+		w, r,
 		gonethttpresponsejsend.NewSuccessResponse(nil, http.StatusOK),
 	)
 	return nil
@@ -168,7 +175,10 @@ func (c controller) DeleteUser(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.DeleteUserRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.DeleteUserRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -189,7 +199,7 @@ func (c controller) DeleteUser(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(nil, http.StatusOK),
+		w, r, gonethttpresponsejsend.NewSuccessResponse(nil, http.StatusOK),
 	)
 	return nil
 }

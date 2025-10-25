@@ -4,7 +4,6 @@ import (
 	"log/slog"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
 	godatabasessql "github.com/ralvarezdev/go-databases/sql"
 	gojwtsync "github.com/ralvarezdev/go-jwt/sync"
 	gojwtsyncsqlite "github.com/ralvarezdev/go-jwt/sync/sqlite"
@@ -54,14 +53,14 @@ var (
 		ConnectionMaxIdleTime: ConnectionMaxIdleTime,
 	}
 
-	// SyncHandler is the JWT sync handler
-	SyncHandler godatabasessql.Handler
+	// SyncSQLiteService is the JWT sync SQLite service
+	SyncSQLiteService godatabasessql.Service
 
 	// SyncService is the JWT sync service
 	SyncService gojwtsync.Service
 
-	// TokenValidatorHandler is the JWT token validator SQLite handler
-	TokenValidatorHandler godatabasessql.Handler
+	// TokenValidatorService is the JWT token validator SQLite service
+	TokenValidatorService godatabasessql.Service
 )
 
 // Load initializes the SQLite handlers and services
@@ -70,18 +69,18 @@ var (
 //
 //   - logger: The logger (optional, can be nil)
 func Load(logger *slog.Logger) {
-	// Initialize the JWT sync SQLite handler
-	syncHandler, err := godatabasessql.NewDefaultHandler(
+	// Initialize the JWT sync SQLite service
+	syncSQLiteService, err := godatabasessql.NewDefaultService(
 		&SyncConfig,
 	)
 	if err != nil {
 		panic(err)
 	}
-	SyncHandler = syncHandler
+	SyncSQLiteService = syncSQLiteService
 
 	// Initialize the JWT sync service
 	syncService, err := gojwtsyncsqlite.NewDefaultService(
-		SyncHandler,
+		SyncSQLiteService,
 		logger,
 	)
 	if err != nil {
@@ -89,12 +88,12 @@ func Load(logger *slog.Logger) {
 	}
 	SyncService = syncService
 
-	// Initialize the token validator SQLite handler
-	tokenValidatorHandler, err := godatabasessql.NewDefaultHandler(
+	// Initialize the token validator SQLite service
+	tokenValidatorService, err := godatabasessql.NewDefaultService(
 		&TokenValidatorConfig,
 	)
 	if err != nil {
 		panic(err)
 	}
-	TokenValidatorHandler = tokenValidatorHandler
+	TokenValidatorService = tokenValidatorService
 }

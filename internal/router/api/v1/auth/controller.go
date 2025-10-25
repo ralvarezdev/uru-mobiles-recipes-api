@@ -9,10 +9,11 @@ import (
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
+	pbempty "google.golang.org/protobuf/types/known/emptypb"
+
 	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
 	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
 	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
-	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 
 type (
@@ -33,7 +34,10 @@ type (
 // @Router /api/v1/auth/signup [post]
 func (c controller) SignUp(w http.ResponseWriter, r *http.Request) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.SignUpRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.SignUpRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Call the gRPC service to sign up the user
 	if _, err := internalgrpcauth.Client.SignUp(
@@ -45,7 +49,7 @@ func (c controller) SignUp(w http.ResponseWriter, r *http.Request) error {
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil, http.StatusCreated,
 		),
 	)
@@ -66,7 +70,10 @@ func (c controller) SignUp(w http.ResponseWriter, r *http.Request) error {
 // @Router /api/v1/auth/login [post]
 func (c controller) LogIn(w http.ResponseWriter, r *http.Request) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.LogInRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.LogInRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Call the gRPC service to log in the user
 	ctx := context.Background()
@@ -81,7 +88,7 @@ func (c controller) LogIn(w http.ResponseWriter, r *http.Request) error {
 	// Handle the response (if the response contains 2FA methods, return a fail response)
 	if responseBody != nil && responseBody.GetTwoFactorMethods() != nil {
 		internalprotojson.Handler.HandleResponse(
-			w, gonethttpresponsejsend.NewFailResponse(
+			w, r, gonethttpresponsejsend.NewFailResponse(
 				responseBody,
 				http.StatusBadRequest,
 			),
@@ -90,16 +97,16 @@ func (c controller) LogIn(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// Parse the metadata to clear cookies
-	if err = internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		w,
+	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
 		ctx,
-	); err != nil {
-		return err
+		w,
+	); parseErr != nil {
+		return parseErr
 	}
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusCreated,
 		),
@@ -142,7 +149,7 @@ func (c controller) ListRefreshTokens(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			responseBody,
 			http.StatusOK,
 		),
@@ -167,7 +174,10 @@ func (c controller) GetRefreshToken(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.GetRefreshTokenRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.GetRefreshTokenRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -189,7 +199,7 @@ func (c controller) GetRefreshToken(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			responseBody,
 			http.StatusOK,
 		),
@@ -215,7 +225,10 @@ func (c controller) RevokeRefreshToken(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.RevokeRefreshTokenRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.RevokeRefreshTokenRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -235,16 +248,16 @@ func (c controller) RevokeRefreshToken(
 	}
 
 	// Parse the metadata to clear cookies
-	if err = internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		w,
+	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
 		ctx,
-	); err != nil {
-		return err
+		w,
+	); parseErr != nil {
+		return parseErr
 	}
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -282,16 +295,16 @@ func (c controller) LogOut(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// Parse the metadata to clear cookies
-	if err = internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		w,
+	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
 		ctx,
-	); err != nil {
-		return err
+		w,
+	); parseErr != nil {
+		return parseErr
 	}
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -332,16 +345,16 @@ func (c controller) RevokeRefreshTokens(
 	}
 
 	// Parse the metadata to clear cookies
-	if err = internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		w,
+	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
 		ctx,
-	); err != nil {
-		return err
+		w,
+	); parseErr != nil {
+		return parseErr
 	}
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -379,16 +392,16 @@ func (c controller) RefreshToken(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// Parse the metadata to clear cookies
-	if err = internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		w,
+	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
 		ctx,
-	); err != nil {
-		return err
+		w,
+	); parseErr != nil {
+		return parseErr
 	}
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusCreated,
 		),
@@ -431,7 +444,7 @@ func (c controller) Generate2FATOTPUrl(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			responseBody,
 			http.StatusCreated,
 		),
@@ -457,7 +470,10 @@ func (c controller) Verify2FATOTP(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.Verify2FATOTPRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.Verify2FATOTPRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -478,7 +494,7 @@ func (c controller) Verify2FATOTP(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -520,7 +536,7 @@ func (c controller) Revoke2FATOTP(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -546,7 +562,10 @@ func (c controller) ChangeEmail(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.ChangeEmailRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.ChangeEmailRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -567,7 +586,7 @@ func (c controller) ChangeEmail(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -610,7 +629,7 @@ func (c controller) SendEmailVerificationToken(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -635,7 +654,10 @@ func (c controller) VerifyEmail(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.VerifyEmailRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.VerifyEmailRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -656,7 +678,7 @@ func (c controller) VerifyEmail(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -682,7 +704,10 @@ func (c controller) ChangePassword(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.ChangePasswordRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.ChangePasswordRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -703,7 +728,7 @@ func (c controller) ChangePassword(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -729,7 +754,10 @@ func (c controller) ForgotPassword(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.ForgotPasswordRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.ForgotPasswordRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -750,7 +778,7 @@ func (c controller) ForgotPassword(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -775,7 +803,10 @@ func (c controller) ResetPassword(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.ResetPasswordRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.ResetPasswordRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -796,7 +827,7 @@ func (c controller) ResetPassword(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -822,7 +853,10 @@ func (c controller) ChangePhoneNumber(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.ChangePhoneNumberRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.ChangePhoneNumberRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -843,7 +877,7 @@ func (c controller) ChangePhoneNumber(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -886,7 +920,7 @@ func (c controller) SendPhoneNumberVerificationCode(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -912,7 +946,10 @@ func (c controller) VerifyPhoneNumber(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.EnableUser2FARequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.EnableUser2FARequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -934,7 +971,7 @@ func (c controller) VerifyPhoneNumber(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			responseBody,
 			http.StatusOK,
 		),
@@ -960,7 +997,10 @@ func (c controller) EnableUser2FA(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.EnableUser2FARequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.EnableUser2FARequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -982,7 +1022,7 @@ func (c controller) EnableUser2FA(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			responseBody,
 			http.StatusOK,
 		),
@@ -1008,7 +1048,10 @@ func (c controller) DisableUser2FA(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.DisableUser2FARequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.DisableUser2FARequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -1029,7 +1072,7 @@ func (c controller) DisableUser2FA(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),
@@ -1055,7 +1098,10 @@ func (c controller) RegenerateUser2FARecoveryCodes(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.RegenerateUser2FARecoveryCodesRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.RegenerateUser2FARecoveryCodesRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -1077,7 +1123,7 @@ func (c controller) RegenerateUser2FARecoveryCodes(
 
 	// Handle the response
 	internalprotojson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			responseBody,
 			http.StatusOK,
 		),
@@ -1103,7 +1149,10 @@ func (c controller) SendUser2FAEmailCode(
 	r *http.Request,
 ) error {
 	// Get the body from the context
-	requestBody, _ := gonethttpctx.GetBody(r).(*pbauth.SendUser2FAEmailCodeRequest)
+	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.SendUser2FAEmailCodeRequest)
+	if !ok {
+		panic(gonethttpctx.ErrInvalidBodyType)
+	}
 
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
@@ -1124,7 +1173,7 @@ func (c controller) SendUser2FAEmailCode(
 
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil,
 			http.StatusOK,
 		),

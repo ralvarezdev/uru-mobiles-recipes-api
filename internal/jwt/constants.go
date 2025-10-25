@@ -9,6 +9,7 @@ import (
 	gojwttokenclaims "github.com/ralvarezdev/go-jwt/token/claims"
 	gojwttokenclaimssqlite "github.com/ralvarezdev/go-jwt/token/claims/sqlite"
 	gojwttokenvalidator "github.com/ralvarezdev/go-jwt/token/validator"
+
 	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
 )
 
@@ -36,11 +37,11 @@ var (
 // Parameters:
 //
 //   - mode: the go-flags mode flag to determine if the environment is in debug mode
-//   - tokenValidatorSQLiteHandler: the SQLite handler for the token validator
+//   - tokenValidatorSQLiteService: the SQLite service for the token validator
 //   - logger: the logger instance
 func Load(
 	mode *goflagsmode.Flag,
-	tokenValidatorSQLiteHandler godatabasessql.Handler,
+	tokenValidatorSQLiteService godatabasessql.Service,
 	logger *slog.Logger,
 ) {
 	// Load the JWT public key from environment variable
@@ -54,7 +55,7 @@ func Load(
 
 	// Initialize the JWT token validator with SQLite
 	tokenValidator, err := gojwttokenclaimssqlite.NewTokenValidator(
-		tokenValidatorSQLiteHandler,
+		tokenValidatorSQLiteService,
 		logger,
 	)
 	if err != nil {

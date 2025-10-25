@@ -12,16 +12,17 @@ import (
 	gonethttphandler "github.com/ralvarezdev/go-net/http/handler"
 	gonethttpmiddlewareauth "github.com/ralvarezdev/go-net/http/middleware/auth"
 	gonethttpmiddlewareauthgrpc "github.com/ralvarezdev/go-net/http/middleware/auth/grpc"
-	gonethttpmiddlewareerrorhandler "github.com/ralvarezdev/go-net/http/middleware/error_handler"
-	gonethttpmiddlewareratelimiter "github.com/ralvarezdev/go-net/http/middleware/rate_limiter/redis"
-	gonethttpmiddlewaresizelimiter "github.com/ralvarezdev/go-net/http/middleware/size_limiter"
+	gonethttpmiddlewareerrorhandler "github.com/ralvarezdev/go-net/http/middleware/errorhandler"
+	gonethttpmiddlewareratelimiter "github.com/ralvarezdev/go-net/http/middleware/ratelimiter/redis"
+	gonethttpmiddlewaresizelimiter "github.com/ralvarezdev/go-net/http/middleware/sizelimiter"
 	gonethttpmiddlewarevalidator "github.com/ralvarezdev/go-net/http/middleware/validator"
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	goratelimiter "github.com/ralvarezdev/go-rate-limiter/redis"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go"
+	pbempty "google.golang.org/protobuf/types/known/emptypb"
+
 	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
 	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
-	pbempty "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (

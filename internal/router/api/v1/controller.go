@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
+
 	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
 )
 
@@ -23,7 +24,7 @@ type (
 func (c controller) Ping(w http.ResponseWriter, r *http.Request) error {
 	// Handle the response
 	internaljson.Handler.HandleResponse(
-		w, gonethttpresponsejsend.NewSuccessResponse(
+		w, r, gonethttpresponsejsend.NewSuccessResponse(
 			nil, http.StatusOK,
 		),
 	)

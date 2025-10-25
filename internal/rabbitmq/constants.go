@@ -7,6 +7,7 @@ import (
 	"github.com/rabbitmq/amqp091-go"
 	gojwtrabbitmqconsumer "github.com/ralvarezdev/go-jwt/rabbitmq/consumer"
 	gojwttokenclaims "github.com/ralvarezdev/go-jwt/token/claims"
+
 	internalloader "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/loader"
 )
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -14,13 +15,19 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/mattn/go-sqlite3"
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
-	gogrpcclientinterceptorauthapikey "github.com/ralvarezdev/go-grpc/client/interceptor/auth/api_key"
-	gogrpcclientinterceptorauthjwt "github.com/ralvarezdev/go-grpc/client/interceptor/auth_verifier/jwt"
+	gogrpcclientinterceptorauthapikey "github.com/ralvarezdev/go-grpc/client/interceptor/auth/apikey"
+	gogrpcclientinterceptorauthjwt "github.com/ralvarezdev/go-grpc/client/interceptor/auth/verifier/jwt"
 	gonetflagsport "github.com/ralvarezdev/go-net/flags/port"
 	gonethttproute "github.com/ralvarezdev/go-net/http/route"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go"
 	pbauthcompiled "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/types/known/timestamppb"
+
+	_ "github.com/ralvarezdev/uru-mobiles-recipes-api/docs"
 	internalcookie "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/cookie"
 	internalredis "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/databases/redis"
 	internalsqlite "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/databases/sqlite"
@@ -33,9 +40,6 @@ import (
 	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
 	internalrabbitmq "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/rabbitmq"
 	internalrouter "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/router"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -52,6 +56,9 @@ var (
 
 	// Port is the port to listen on
 	Port int
+
+	// ListenConfig is the net.ListenConfig for the server
+	ListenConfig = net.ListenConfig{}
 )
 
 // init initializes the flags and calls the load functions
@@ -74,13 +81,13 @@ func init() {
 	internallogger.Load(ModeFlag)
 	internalloader.Load(ModeFlag, internallogger.Logger)
 	internalcookie.Load(ModeFlag)
-	internaljson.Load(ModeFlag)
-	internalprotojson.Load(ModeFlag)
+	internaljson.Load(ModeFlag, internallogger.Logger)
+	internalprotojson.Load(ModeFlag, internallogger.Logger)
 	internalredis.Load()
 	internalsqlite.Load(internallogger.Logger)
 	internaljwt.Load(
 		ModeFlag,
-		internalsqlite.TokenValidatorHandler,
+		internalsqlite.TokenValidatorService,
 		internallogger.Logger,
 	)
 	internalrabbitmq.Load(
@@ -119,7 +126,8 @@ func main() {
 	defer stop()
 
 	// Listen on the given port
-	portListener, err := net.Listen(
+	portListener, err := ListenConfig.Listen(
+		ctx,
 		"tcp",
 		fmt.Sprintf(":%d", Port),
 	)
@@ -161,7 +169,7 @@ func main() {
 		),
 		grpc.WithChainUnaryInterceptor(
 			apiKeyInterceptor.Authenticate(),
-			authJWTInterceptor.VerifyAuthentication(),
+			authJWTInterceptor.Verify(),
 		),
 	)
 	if err != nil {
@@ -213,14 +221,14 @@ func main() {
 	}
 
 	for {
-		msg, err := stream.Recv()
-		if err == io.EOF {
+		msg, streamErr := stream.Recv()
+		if errors.Is(streamErr, io.EOF) {
 			// Stream ended
 			break
 		}
-		if err != nil {
+		if streamErr != nil {
 			// Handle error
-			panic(err)
+			panic(streamErr)
 		}
 
 		// Get the refresh tokens and access tokens from the message
@@ -230,6 +238,7 @@ func main() {
 		// Insert the refresh tokens into the RabbitMQ service
 		for i, refreshToken := range refreshTokens {
 			if err = internalrabbitmq.RabbitMQConsumerService.AddRefreshToken(
+				ctx,
 				refreshToken.GetId(),
 				refreshToken.GetExpiresAt().AsTime(),
 			); err != nil {
@@ -241,6 +250,7 @@ func main() {
 
 			// Insert the access tokens into the RabbitMQ service
 			if err = internalrabbitmq.RabbitMQConsumerService.AddAccessToken(
+				ctx,
 				accessToken.GetId(),
 				refreshToken.GetId(),
 				accessToken.GetExpiresAt().AsTime(),

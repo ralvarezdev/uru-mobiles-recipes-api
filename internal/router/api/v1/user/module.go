@@ -3,6 +3,7 @@ package user
 import (
 	gonethttp "github.com/ralvarezdev/go-net/http"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
+
 	internalmiddleware "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/middleware"
 )
 
