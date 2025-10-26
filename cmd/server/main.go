@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
-	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -57,9 +56,6 @@ var (
 
 	// Port is the port to listen on
 	Port int
-
-	// ListenConfig is the net.ListenConfig for the server
-	ListenConfig = net.ListenConfig{}
 )
 
 // init initializes the flags and calls the load functions
@@ -125,21 +121,6 @@ func main() {
 		syscall.SIGTERM,
 	)
 	defer stop()
-
-	// Listen on the given port
-	portListener, err := ListenConfig.Listen(
-		ctx,
-		"tcp",
-		fmt.Sprintf(":%d", Port),
-	)
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		if err = portListener.Close(); err != nil {
-			panic(err)
-		}
-	}()
 	
 	// Connect to the Sync SQLite database
 	if connErr := internalsqlite.SyncService.Connect(ctx); connErr != nil {
