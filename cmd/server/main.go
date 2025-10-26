@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"flag"
 	"fmt"
@@ -215,7 +216,11 @@ func main() {
 	// Get the last sync time registered on the JWT sync service
 	lastSyncTokensUpdateAt, err := internalsqlite.SyncService.GetLastSyncTokensUpdatedAt(ctx)
 	if err != nil {
-		panic(err)
+		if errors.Is(err, sql.ErrNoRows) {
+			lastSyncTokensUpdateAt = time.Time{}
+		} else {
+			panic(err)
+		}
 	}
 
 	// Update the last sync time on the JWT sync service
