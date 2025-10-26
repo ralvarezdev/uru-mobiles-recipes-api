@@ -23,7 +23,7 @@ var (
 	JWTPublicKey string
 
 	// TokenValidator is the JWT token validator
-	TokenValidator gojwttokenclaims.TokenValidator
+	TokenValidator *gojwttokenclaimssqlite.TokenValidator
 
 	// ClaimsValidator is the JWT claims validator instance
 	ClaimsValidator gojwttokenclaims.ClaimsValidator

@@ -77,6 +77,8 @@ github.com/ralvarezdev/go-json v0.1.3 h1:Z+eVzJkDLXg9P07w6iBVUG5vm0iVl7wHbi/Guoi
 github.com/ralvarezdev/go-json v0.1.3/go.mod h1:NRhaU538nV65bKQcotfZkN57aHFftLHvV24wTWSv2MQ=
 github.com/ralvarezdev/go-jwt v0.7.1 h1:FEYmfwy+LViS4EYhQ1Sszt1xW3FYs02mMHB2Brsp8Rc=
 github.com/ralvarezdev/go-jwt v0.7.1/go.mod h1:gxw+uNBMGVTfEqpmPbOw5wtyDkCR6tPzi+SF7SM6B8o=
+github.com/ralvarezdev/go-jwt v0.7.3 h1:rJe9aPXrXxoU30ahPv6VOZPM1+pDiM6ygC6Hr7mrlj8=
+github.com/ralvarezdev/go-jwt v0.7.3/go.mod h1:fXGHJ6oPHXgMNWlgR08emuxUklQKgEqgWsq69Jk7lDE=
 github.com/ralvarezdev/go-loader v0.2.21 h1:42Y36ZYtUlau9SrcpH/g1975fUBt1RXTdw6T24h78rk=
 github.com/ralvarezdev/go-loader v0.2.21/go.mod h1:CVp6puI3OIN7f5Avbf9HtSktHkPjn1KHH+S7nMu2LYI=
 github.com/ralvarezdev/go-net v0.13.0 h1:L13LMEB+4Sc4k3jLzhD5OdPMXt26ZlPs66gbYvSxK8A=

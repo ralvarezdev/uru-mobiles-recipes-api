@@ -5,7 +5,6 @@ import (
 	"time"
 
 	godatabasessql "github.com/ralvarezdev/go-databases/sql"
-	gojwtsync "github.com/ralvarezdev/go-jwt/sync"
 	gojwtsyncsqlite "github.com/ralvarezdev/go-jwt/sync/sqlite"
 )
 
@@ -57,7 +56,7 @@ var (
 	SyncSQLiteService godatabasessql.Service
 
 	// SyncService is the JWT sync service
-	SyncService gojwtsync.Service
+	SyncService *gojwtsyncsqlite.Service
 
 	// TokenValidatorService is the JWT token validator SQLite service
 	TokenValidatorService godatabasessql.Service
@@ -77,17 +76,9 @@ func Load(logger *slog.Logger) {
 		panic(err)
 	}
 	SyncSQLiteService = syncSQLiteService
-	
-	// Connect to the Sync SQLite database
-	if _, connErr := SyncSQLiteService.Connect(); connErr != nil {
-		panic(connErr)
-	}
-	if logger != nil {
-		logger.Info("Connected to Sync SQLite database")
-	}
 
 	// Initialize the JWT sync service
-	syncService, err := gojwtsyncsqlite.NewDefaultService(
+	syncService, err := gojwtsyncsqlite.NewService(
 		SyncSQLiteService,
 		logger,
 	)
@@ -104,12 +95,4 @@ func Load(logger *slog.Logger) {
 		panic(err)
 	}
 	TokenValidatorService = tokenValidatorService
-	
-	// Connect to the Token Validator SQLite database
-	if _, connErr := TokenValidatorService.Connect(); connErr != nil {
-		panic(connErr)
-	}
-	if logger != nil {
-		logger.Info("Connected to Token Validator SQLite database")
-	}
 }

@@ -139,6 +139,22 @@ func main() {
 			panic(err)
 		}
 	}()
+	
+	// Connect to the Sync SQLite database
+	if connErr := internalsqlite.SyncService.Connect(ctx); connErr != nil {
+		panic(connErr)
+	}
+	if internallogger.Logger != nil {
+		internalloader.Logger.Info("Connected to Sync SQLite database")
+	}
+	
+	// Connect to the Token Validator SQLite database
+	if connErr := internaljwt.TokenValidator.Connect(ctx); connErr != nil {
+		panic(connErr)
+	}
+	if internallogger.Logger != nil {
+		internallogger.Logger.Info("Connected to Token Validator SQLite database")
+	}
 
 	// Create the auth client JWT authentication interceptor
 	authJWTInterceptor, err := gogrpcclientinterceptorauthjwt.NewInterceptor(
