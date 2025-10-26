@@ -85,6 +85,8 @@ github.com/ralvarezdev/go-loader v0.2.21 h1:42Y36ZYtUlau9SrcpH/g1975fUBt1RXTdw6T
 github.com/ralvarezdev/go-loader v0.2.21/go.mod h1:CVp6puI3OIN7f5Avbf9HtSktHkPjn1KHH+S7nMu2LYI=
 github.com/ralvarezdev/go-net v0.13.0 h1:L13LMEB+4Sc4k3jLzhD5OdPMXt26ZlPs66gbYvSxK8A=
 github.com/ralvarezdev/go-net v0.13.0/go.mod h1:OLFyuVlsyr+iziP8zR2HT/LwABvU33c13nZjX6nMiok=
+github.com/ralvarezdev/go-net v0.13.1 h1:B//x7B7ljfvAvm6B9Vvqwl1TJNiY0ddFSO8AdgtQLSw=
+github.com/ralvarezdev/go-net v0.13.1/go.mod h1:OLFyuVlsyr+iziP8zR2HT/LwABvU33c13nZjX6nMiok=
 github.com/ralvarezdev/go-rate-limiter v0.1.11 h1:4YqXf8iOuwsGi5oCAwJSHAjq7xRlbbCPiLrg2b2kJtw=
 github.com/ralvarezdev/go-rate-limiter v0.1.11/go.mod h1:TcADAW+bEUJhNtfdg9kaRYn0tp4laJrrMJcaB+zP7HY=
 github.com/ralvarezdev/go-reflect v0.2.12 h1:Bttzr/oxXLaaKm9fPIfDsZuFfMQsPw/VJijCml2FD60=
