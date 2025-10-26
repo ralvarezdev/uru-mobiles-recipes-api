@@ -45,14 +45,14 @@ var (
 
 	// ValidateJSON is the API request validator middleware function for JSON requests
 	ValidateJSON func(
-		body interface{},
-		auxiliaryValidatorFns ...interface{},
+		body any,
+		auxiliaryValidatorFns ...any,
 	) func(next http.Handler) http.Handler
 
 	// ValidateProtoJSON is the API request validator middleware function for ProtoJSON requests
 	ValidateProtoJSON func(
-		body interface{},
-		auxiliaryValidatorFns ...interface{},
+		body any,
+		auxiliaryValidatorFns ...any,
 	) func(next http.Handler) http.Handler
 
 	// LimitRequests is the API rate limiter middleware function
