@@ -36,3 +36,6 @@ go.work.sum
 
 # Swagger generated files
 docs/
+
+# Compile directory
+bin/
