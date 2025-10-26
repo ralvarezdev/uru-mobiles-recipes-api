@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Load environment variables from .env file
 set -a

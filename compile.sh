@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 echo "Compiling server..."
 go mod tidy

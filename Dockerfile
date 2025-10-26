@@ -1,7 +1,7 @@
 FROM golang:alpine AS builder
 
-# Install git to fetch dependencies and protoc for compiling .proto files
-RUN apk add --no-cache git
+# Install git to fetch dependencies and gcc for cgo
+RUN apk add --no-cache git gcc musl-dev
 
 # Add GitHub token secret for private repo access
 RUN --mount=type=secret,id=GITHUB_TOKEN \
