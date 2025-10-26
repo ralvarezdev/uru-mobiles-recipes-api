@@ -93,6 +93,8 @@ github.com/ralvarezdev/go-strings v0.1.17 h1:HFFqe5fVqsYdaOsj+yoVtgIgkNXubDHSz5u
 github.com/ralvarezdev/go-strings v0.1.17/go.mod h1:8sFOqmPJpqzS7bTjf91EzUCITnwpmkfifwY80GxV5r8=
 github.com/ralvarezdev/go-validator v0.6.15 h1:oLSYCJmCPEHKZhsQ3RzZbQ/GJFT01JRN5RHEgCKNmds=
 github.com/ralvarezdev/go-validator v0.6.15/go.mod h1:vqU4jUOxGyDDH0eMS+Lg8H0yKOjEsFPJrFw1KMJQw4w=
+github.com/ralvarezdev/go-validator v0.6.16 h1:0Pc10C1GbYEZAqjibAw5sqsg9U7AsP3IfWNpwFkcOaw=
+github.com/ralvarezdev/go-validator v0.6.16/go.mod h1:vqU4jUOxGyDDH0eMS+Lg8H0yKOjEsFPJrFw1KMJQw4w=
 github.com/ralvarezdev/grpc-auth-proto-go v0.1.12 h1:0q/dqD+dy5H862EE/vudYl4oqPpudjB9uUi/XYyUDEA=
 github.com/ralvarezdev/grpc-auth-proto-go v0.1.12/go.mod h1:RHsM2AcX1O9C2XLgWnfaDsHNJTUH+INTS2Y0+jMSAYY=
 github.com/rogpeppe/go-internal v1.13.1 h1:KvO1DLK/DRN07sQ1LQKScxyZJuNnedQ5/wKSR38lUII=
