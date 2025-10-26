@@ -77,6 +77,14 @@ func Load(logger *slog.Logger) {
 		panic(err)
 	}
 	SyncSQLiteService = syncSQLiteService
+	
+	// Connect to the Sync SQLite database
+	if _, connErr := SyncSQLiteService.Connect(); connErr != nil {
+		panic(connErr)
+	}
+	if logger != nil {
+		logger.Info("Connected to Sync SQLite database")
+	}
 
 	// Initialize the JWT sync service
 	syncService, err := gojwtsyncsqlite.NewDefaultService(
@@ -96,4 +104,12 @@ func Load(logger *slog.Logger) {
 		panic(err)
 	}
 	TokenValidatorService = tokenValidatorService
+	
+	// Connect to the Token Validator SQLite database
+	if _, connErr := TokenValidatorService.Connect(); connErr != nil {
+		panic(connErr)
+	}
+	if logger != nil {
+		logger.Info("Connected to Token Validator SQLite database")
+	}
 }
