@@ -71,8 +71,8 @@ github.com/ralvarezdev/go-databases v0.8.2 h1:rcQOvhzy5vFpTGDo/O7ar3EuxSxbgu8CFc
 github.com/ralvarezdev/go-databases v0.8.2/go.mod h1:f5HsXMi89hSenuZM88IKmfqdTv2gI1JBxizKukz/Y9A=
 github.com/ralvarezdev/go-flags v0.3.8 h1:b/doNRr2HsniEpz8NjbH2vxJH5WMeymIx0LAzDIOnOc=
 github.com/ralvarezdev/go-flags v0.3.8/go.mod h1:R3yVBYvzwqfOp26LidaiJ/zftVAnPC3pKunVpV/vosE=
-github.com/ralvarezdev/go-grpc v0.5.8 h1:AVg8CqJwNV0bpUGEpscKsN8iIdn5tDz72O8MKQ2Lp8Q=
-github.com/ralvarezdev/go-grpc v0.5.8/go.mod h1:jq3twhjjFLGdw5SYou6vs27KLGAG6q6eK3dsTBfmuX0=
+github.com/ralvarezdev/go-grpc v0.5.10 h1:/O7CHlxkcuxjM0OwYQ8vkCmVmXPonBV0Syvvl90TrNs=
+github.com/ralvarezdev/go-grpc v0.5.10/go.mod h1:jq3twhjjFLGdw5SYou6vs27KLGAG6q6eK3dsTBfmuX0=
 github.com/ralvarezdev/go-json v0.1.3 h1:Z+eVzJkDLXg9P07w6iBVUG5vm0iVl7wHbi/Guoil9H8=
 github.com/ralvarezdev/go-json v0.1.3/go.mod h1:NRhaU538nV65bKQcotfZkN57aHFftLHvV24wTWSv2MQ=
 github.com/ralvarezdev/go-jwt v0.7.4 h1:f9ovJubB/X1xL1cxeW+QNQ8y79Jh/YN9v74SiyYBYXY=
