@@ -12,7 +12,7 @@ require (
 	github.com/ralvarezdev/go-grpc v0.5.10
 	github.com/ralvarezdev/go-jwt v0.7.4
 	github.com/ralvarezdev/go-loader v0.2.21
-	github.com/ralvarezdev/go-net v0.13.5
+	github.com/ralvarezdev/go-net v0.13.6
 	github.com/ralvarezdev/go-rate-limiter v0.1.11
 	github.com/ralvarezdev/go-security-headers v0.1.4
 	github.com/ralvarezdev/grpc-auth-proto-go v0.1.12
