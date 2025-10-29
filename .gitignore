@@ -35,7 +35,7 @@ go.work.sum
 .github_token
 
 # Swagger generated files
-docs/
+/docs/
 
 # Compile directory
 bin/

@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
 	"time"
 
@@ -271,21 +270,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	// Log the serving of the Swagger UI
-	absPath, err := filepath.Abs("./docs")
-	if err != nil {
-		panic(err)
-	}
-	internallogger.Logger.Info(
-		"Serving Swagger UI",
-		slog.String("docs_path", absPath),
-	)
-
-	// Serve the Swaggers docs
-	router.ServeStaticFiles(
-		"/docs/", absPath,
-	)
 
 	// Create the main router module
 	if err = internalrouter.Module.Create(router); err != nil {
