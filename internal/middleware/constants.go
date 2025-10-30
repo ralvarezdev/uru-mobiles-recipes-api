@@ -151,7 +151,7 @@ func Load(
 	LimitBody = sizeLimiter.Limit(int64(BodyLimit))
 
 	// Create API request validator middleware for JSON requests
-	jsonValidator, err := gonethttpmiddlewarevalidator.NewMiddleware(
+	jsonValidator, err := gonethttpmiddlewarevalidator.NewJSONMiddleware(
 		jsonHandler,
 		nil,
 		nil,
@@ -163,7 +163,7 @@ func Load(
 	ValidateJSON = jsonValidator.Validate
 
 	// Create API request validator middleware for ProtoJSON requests
-	protoJSONValidator, err := gonethttpmiddlewarevalidator.NewMiddleware(
+	protoJSONValidator, err := gonethttpmiddlewarevalidator.NewProtoJSONMiddleware(
 		protoJSONHandler,
 		nil,
 		nil,
