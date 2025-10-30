@@ -9,10 +9,10 @@ require (
 	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/ralvarezdev/go-databases v0.8.2
 	github.com/ralvarezdev/go-flags v0.3.8
-	github.com/ralvarezdev/go-grpc v0.5.11
+	github.com/ralvarezdev/go-grpc v0.5.12
 	github.com/ralvarezdev/go-jwt v0.7.4
 	github.com/ralvarezdev/go-loader v0.2.22
-	github.com/ralvarezdev/go-net v0.13.9
+	github.com/ralvarezdev/go-net v0.13.10
 	github.com/ralvarezdev/go-rate-limiter v0.1.11
 	github.com/ralvarezdev/go-security-headers v0.1.4
 	github.com/ralvarezdev/grpc-auth-proto-go v0.1.12
@@ -42,7 +42,7 @@ require (
 	github.com/ralvarezdev/go-json v0.1.3 // indirect
 	github.com/ralvarezdev/go-reflect v0.2.12 // indirect
 	github.com/ralvarezdev/go-strings v0.1.17 // indirect
-	github.com/ralvarezdev/go-validator v0.6.19 // indirect
+	github.com/ralvarezdev/go-validator v0.6.20 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	github.com/swaggo/files/v2 v2.0.2 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
