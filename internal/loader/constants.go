@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
 	goloaderenv "github.com/ralvarezdev/go-loader/env"
+	internallogger "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/logger"
 )
 
 var (
@@ -32,11 +33,13 @@ func Load(mode *goflagsmode.Flag, logger *slog.Logger) {
 	// Load the environment variables loader
 	loader, err := goloaderenv.NewDefaultLoader(
 		func() error {
-			// Load .env file only if not in production mode
-			if mode != nil && mode.IsProd() {
-				return nil
+			// Load .env file
+			if mode != nil && !mode.IsProd() {
+				if err := godotenv.Load(); err != nil {
+					internallogger.Logger.Warn("Could not load .env file", slog.String("error", err.Error()))
+				}
 			}
-			return godotenv.Load()
+			return nil
 		},
 		Logger,
 	)
