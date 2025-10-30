@@ -5,8 +5,13 @@ if exist .env (
     call :loadenv .env
 )
 
+REM Check if the mode variable is set, default to 'dev' if not
+if "%MODE%"=="" (
+    set "MODE=dev"
+)
+
 REM Execute the Go binary on port specified
-.\bin\server\server.exe -mode=prod -port=8080
+.\bin\server\server.exe -mode=%MODE% -port=8080
 exit /b
 
 :loadenv

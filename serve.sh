@@ -8,5 +8,10 @@ if [ -f ./.env ]; then
 fi
 set +a
 
+# Check if the mode variable is set, default to 'dev' if not
+if [ -z "$MODE" ]; then
+  MODE="dev"
+fi
+
 # Execute the Go binary on port specified
-exec ./bin/server/server -mode=prod -port=8080
+exec ./bin/server/server -mode=$MODE -port=8080

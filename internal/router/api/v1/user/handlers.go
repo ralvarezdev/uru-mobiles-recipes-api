@@ -16,11 +16,6 @@ import (
 	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
 )
 
-type (
-	// controller is the structure for the API V1 user controller
-	controller struct{}
-)
-
 // UpdateProfile updates the profile of the authenticated user
 // @Summary Updates the profile of the authenticated user
 // @Description Updates the profile of the authenticated user
@@ -34,7 +29,7 @@ type (
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/user/profile [put]
-func (c controller) UpdateProfile(
+func UpdateProfile(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -79,7 +74,7 @@ func (c controller) UpdateProfile(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/user/profile [get]
-func (c controller) GetMyProfile(
+func GetMyProfile(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -122,7 +117,7 @@ func (c controller) GetMyProfile(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/user/username [put]
-func (c controller) ChangeUsername(
+func ChangeUsername(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -170,7 +165,7 @@ func (c controller) ChangeUsername(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/user [delete]
-func (c controller) DeleteUser(
+func DeleteUser(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {

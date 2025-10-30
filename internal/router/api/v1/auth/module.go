@@ -8,13 +8,12 @@ import (
 )
 
 var (
-	Controller = controller{}
 	Module     = &gonethttp.Module{
 		Pattern: "/auth",
 		AddHandlersFn: func(m *gonethttp.Module) {
 			m.AddEndpointHandler(
 				"POST /signup",
-				Controller.SignUp,
+				SignUp,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_SignUp_FullMethodName,
 				),
@@ -24,7 +23,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /login",
-				Controller.LogIn,
+				LogIn,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_LogIn_FullMethodName,
 				),
@@ -34,21 +33,21 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /refresh-token",
-				Controller.RefreshToken,
+				RefreshToken,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_RefreshToken_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"POST /logout",
-				Controller.LogOut,
+				LogOut,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_LogOut_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"GET /refresh-token",
-				Controller.GetRefreshToken,
+				GetRefreshToken,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_GetRefreshToken_FullMethodName,
 				),
@@ -58,14 +57,14 @@ var (
 			)
 			m.AddEndpointHandler(
 				"GET /refresh-tokens",
-				Controller.ListRefreshTokens,
+				ListRefreshTokens,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ListRefreshTokens_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"DELETE /refresh-token",
-				Controller.RevokeRefreshToken,
+				RevokeRefreshToken,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_RevokeRefreshToken_FullMethodName,
 				),
@@ -75,21 +74,21 @@ var (
 			)
 			m.AddEndpointHandler(
 				"DELETE /refresh-tokens",
-				Controller.RevokeRefreshTokens,
+				RevokeRefreshTokens,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_RevokeRefreshTokens_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"POST /2fa/totp/generate",
-				Controller.Generate2FATOTPUrl,
+				Generate2FATOTPUrl,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_Generate2FATOTPUrl_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"POST /2fa/totp/verify",
-				Controller.Verify2FATOTP,
+				Verify2FATOTP,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_Verify2FATOTP_FullMethodName,
 				),
@@ -99,14 +98,14 @@ var (
 			)
 			m.AddEndpointHandler(
 				"DELETE /2fa/totp",
-				Controller.Revoke2FATOTP,
+				Revoke2FATOTP,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_Revoke2FATOTP_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"PUT /password",
-				Controller.ChangePassword,
+				ChangePassword,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ChangePassword_FullMethodName,
 				),
@@ -116,7 +115,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /password/forgot",
-				Controller.ForgotPassword,
+				ForgotPassword,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ForgotPassword_FullMethodName,
 				),
@@ -126,7 +125,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /password/reset",
-				Controller.ResetPassword,
+				ResetPassword,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ResetPassword_FullMethodName,
 				),
@@ -136,7 +135,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"PUT /email",
-				Controller.ChangeEmail,
+				ChangeEmail,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ChangeEmail_FullMethodName,
 				),
@@ -144,14 +143,14 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /email/send-verification",
-				Controller.SendEmailVerificationToken,
+				SendEmailVerificationToken,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_SendEmailVerificationToken_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"POST /email/verify",
-				Controller.VerifyEmail,
+				VerifyEmail,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_VerifyEmail_FullMethodName,
 				),
@@ -159,7 +158,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"PUT /phone-number",
-				Controller.ChangePhoneNumber,
+				ChangePhoneNumber,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ChangePhoneNumber_FullMethodName,
 				),
@@ -167,14 +166,14 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /phone-number/send-verification",
-				Controller.SendPhoneNumberVerificationCode,
+				SendPhoneNumberVerificationCode,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_SendPhoneNumberVerificationCode_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"POST /phone-number/verify",
-				Controller.VerifyPhoneNumber,
+				VerifyPhoneNumber,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_VerifyPhoneNumber_FullMethodName,
 				),
@@ -182,7 +181,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /2fa/enable",
-				Controller.EnableUser2FA,
+				EnableUser2FA,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_EnableUser2FA_FullMethodName,
 				),
@@ -190,7 +189,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /2fa/disable",
-				Controller.DisableUser2FA,
+				DisableUser2FA,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_DisableUser2FA_FullMethodName,
 				),
@@ -198,7 +197,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /2fa/recovery-codes/regenerate",
-				Controller.RegenerateUser2FARecoveryCodes,
+				RegenerateUser2FARecoveryCodes,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_RegenerateUser2FARecoveryCodes_FullMethodName,
 				),
@@ -206,7 +205,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"POST /2fa/email/send-code",
-				Controller.SendUser2FAEmailCode,
+				SendUser2FAEmailCode,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_SendUser2FAEmailCode_FullMethodName,
 				),

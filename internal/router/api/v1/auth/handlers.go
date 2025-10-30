@@ -16,11 +16,6 @@ import (
 	internalprotojson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/protojson"
 )
 
-type (
-	// controller is the structure for the API V1 auth controller
-	controller struct{}
-)
-
 // SignUp signs up a new user
 // @Summary Sign up a new user
 // @Description Creates a new user account with the provided details
@@ -32,7 +27,7 @@ type (
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/signup [post]
-func (c controller) SignUp(w http.ResponseWriter, r *http.Request) error {
+func SignUp(w http.ResponseWriter, r *http.Request) error {
 	// Get the body from the context
 	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.SignUpRequest)
 	if !ok {
@@ -68,7 +63,7 @@ func (c controller) SignUp(w http.ResponseWriter, r *http.Request) error {
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/login [post]
-func (c controller) LogIn(w http.ResponseWriter, r *http.Request) error {
+func LogIn(w http.ResponseWriter, r *http.Request) error {
 	// Get the body from the context
 	requestBody, ok := gonethttpctx.GetBody(r).(*pbauth.LogInRequest)
 	if !ok {
@@ -125,7 +120,7 @@ func (c controller) LogIn(w http.ResponseWriter, r *http.Request) error {
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-tokens [get]
-func (c controller) ListRefreshTokens(
+func ListRefreshTokens(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -169,7 +164,7 @@ func (c controller) ListRefreshTokens(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-token [get]
-func (c controller) GetRefreshToken(
+func GetRefreshToken(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -220,7 +215,7 @@ func (c controller) GetRefreshToken(
 // @Failure 404 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-token [delete]
-func (c controller) RevokeRefreshToken(
+func RevokeRefreshToken(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -276,7 +271,7 @@ func (c controller) RevokeRefreshToken(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/logout [post]
-func (c controller) LogOut(w http.ResponseWriter, r *http.Request) error {
+func LogOut(w http.ResponseWriter, r *http.Request) error {
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
 		context.Background(),
@@ -323,7 +318,7 @@ func (c controller) LogOut(w http.ResponseWriter, r *http.Request) error {
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-tokens [delete]
-func (c controller) RevokeRefreshTokens(
+func RevokeRefreshTokens(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -373,7 +368,7 @@ func (c controller) RevokeRefreshTokens(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/refresh-token [post]
-func (c controller) RefreshToken(w http.ResponseWriter, r *http.Request) error {
+func RefreshToken(w http.ResponseWriter, r *http.Request) error {
 	// Create the context for the gRPC call
 	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
 		context.Background(),
@@ -420,7 +415,7 @@ func (c controller) RefreshToken(w http.ResponseWriter, r *http.Request) error {
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/totp/generate [post]
-func (c controller) Generate2FATOTPUrl(
+func Generate2FATOTPUrl(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -465,7 +460,7 @@ func (c controller) Generate2FATOTPUrl(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/totp/verify [post]
-func (c controller) Verify2FATOTP(
+func Verify2FATOTP(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -513,7 +508,7 @@ func (c controller) Verify2FATOTP(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/totp [delete]
-func (c controller) Revoke2FATOTP(
+func Revoke2FATOTP(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -557,7 +552,7 @@ func (c controller) Revoke2FATOTP(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/email [put]
-func (c controller) ChangeEmail(
+func ChangeEmail(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -606,7 +601,7 @@ func (c controller) ChangeEmail(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/email/send-verification [post]
-func (c controller) SendEmailVerificationToken(
+func SendEmailVerificationToken(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -649,7 +644,7 @@ func (c controller) SendEmailVerificationToken(
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/email/verify [post]
-func (c controller) VerifyEmail(
+func VerifyEmail(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -699,7 +694,7 @@ func (c controller) VerifyEmail(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/password [put]
-func (c controller) ChangePassword(
+func ChangePassword(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -749,7 +744,7 @@ func (c controller) ChangePassword(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/password/forgot [post]
-func (c controller) ForgotPassword(
+func ForgotPassword(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -798,7 +793,7 @@ func (c controller) ForgotPassword(
 // @Failure 400 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/password/reset [post]
-func (c controller) ResetPassword(
+func ResetPassword(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -848,7 +843,7 @@ func (c controller) ResetPassword(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/phone-number [put]
-func (c controller) ChangePhoneNumber(
+func ChangePhoneNumber(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -897,7 +892,7 @@ func (c controller) ChangePhoneNumber(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/phone-number/send-verification [post]
-func (c controller) SendPhoneNumberVerificationCode(
+func SendPhoneNumberVerificationCode(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -941,7 +936,7 @@ func (c controller) SendPhoneNumberVerificationCode(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/phone-number/verify [post]
-func (c controller) VerifyPhoneNumber(
+func VerifyPhoneNumber(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -992,7 +987,7 @@ func (c controller) VerifyPhoneNumber(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/enable [post]
-func (c controller) EnableUser2FA(
+func EnableUser2FA(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -1043,7 +1038,7 @@ func (c controller) EnableUser2FA(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/disable [post]
-func (c controller) DisableUser2FA(
+func DisableUser2FA(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -1093,7 +1088,7 @@ func (c controller) DisableUser2FA(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/recovery-codes/regenerate [post]
-func (c controller) RegenerateUser2FARecoveryCodes(
+func RegenerateUser2FARecoveryCodes(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {
@@ -1144,7 +1139,7 @@ func (c controller) RegenerateUser2FARecoveryCodes(
 // @Failure 401 {object} gonethttpresponsejsend.FailBody
 // @Failure 500 {object} gonethttpresponsejsend.ErrorBody
 // @Router /api/v1/auth/2fa/email/send-code [post]
-func (c controller) SendUser2FAEmailCode(
+func SendUser2FAEmailCode(
 	w http.ResponseWriter,
 	r *http.Request,
 ) error {

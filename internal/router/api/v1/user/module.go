@@ -8,13 +8,12 @@ import (
 )
 
 var (
-	Controller = controller{}
 	Module     = &gonethttp.Module{
 		Pattern: "/user",
 		AddHandlersFn: func(m *gonethttp.Module) {
 			m.AddEndpointHandler(
 				"PUT /profile",
-				Controller.UpdateProfile,
+				UpdateProfile,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_UpdateProfile_FullMethodName,
 				),
@@ -22,14 +21,14 @@ var (
 			)
 			m.AddEndpointHandler(
 				"GET /profile",
-				Controller.GetMyProfile,
+				GetMyProfile,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_GetMyProfile_FullMethodName,
 				),
 			)
 			m.AddEndpointHandler(
 				"PUT /username",
-				Controller.ChangeUsername,
+				ChangeUsername,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_ChangeUsername_FullMethodName,
 				),
@@ -37,7 +36,7 @@ var (
 			)
 			m.AddEndpointHandler(
 				"DELETE /",
-				Controller.DeleteUser,
+				DeleteUser,
 				internalmiddleware.Authenticate(
 					pbauth.Auth_DeleteUser_FullMethodName,
 				),

@@ -8,7 +8,6 @@ import (
 )
 
 var (
-	Controller = controller{}
 	Module     = &gonethttp.Module{
 		Pattern: "/v1",
 		Submodules: gonethttp.NewSubmodules(
@@ -18,7 +17,7 @@ var (
 		AddHandlersFn: func(m *gonethttp.Module) {
 			m.AddEndpointHandler(
 				"GET /ping",
-				Controller.Ping,
+				Ping,
 			)
 		},
 	}

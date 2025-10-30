@@ -8,11 +8,6 @@ import (
 	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
 )
 
-type (
-	// controller is the structure for the API V1 controller
-	controller struct{}
-)
-
 // Ping pings the service
 // @Summary Ping the service
 // @Description Returns a pong response to check if the service is running
@@ -21,7 +16,7 @@ type (
 // @Produce json
 // @Success 200 {object} gonethttpresponsejsend.SuccessBody[any]
 // @Router /api/v1/ping [get]
-func (c controller) Ping(w http.ResponseWriter, r *http.Request) error {
+func Ping(w http.ResponseWriter, r *http.Request) error {
 	// Handle the response
 	internaljson.Handler.HandleResponse(
 		w, r, gonethttpresponsejsend.NewSuccessResponse(
