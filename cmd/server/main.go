@@ -100,9 +100,9 @@ func init() {
 	internalgrpcauth.Load()
 }
 
-//	@Title			... REST API
+//	@Title			Cooking REST API
 //	@Version		1.0
-//	@Description	This is the REST API for the ... application.
+//	@Description	This is the REST API for the Cooking application.
 
 //	@License.name	GPL-3.0
 //	@License.url	http://www.gnu.org/licenses/gpl-3.0.html

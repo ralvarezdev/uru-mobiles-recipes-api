@@ -11,12 +11,12 @@ require (
 	github.com/ralvarezdev/go-flags v0.3.8
 	github.com/ralvarezdev/go-grpc v0.5.10
 	github.com/ralvarezdev/go-jwt v0.7.4
-	github.com/ralvarezdev/go-loader v0.2.21
+	github.com/ralvarezdev/go-loader v0.2.22
 	github.com/ralvarezdev/go-net v0.13.7
 	github.com/ralvarezdev/go-rate-limiter v0.1.11
 	github.com/ralvarezdev/go-security-headers v0.1.4
 	github.com/ralvarezdev/grpc-auth-proto-go v0.1.12
-	github.com/swaggo/http-swagger v1.3.4
+	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.6
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
@@ -44,7 +44,7 @@ require (
 	github.com/ralvarezdev/go-strings v0.1.17 // indirect
 	github.com/ralvarezdev/go-validator v0.6.17 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
-	github.com/swaggo/files v1.0.1 // indirect
+	github.com/swaggo/files/v2 v2.0.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/mod v0.29.0 // indirect
