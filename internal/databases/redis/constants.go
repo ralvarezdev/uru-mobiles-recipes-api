@@ -12,13 +12,13 @@ import (
 const (
 	// EnvRedisAddress is the environment variable for the Redis address
 	EnvRedisAddress = "REDIS_ADDRESS"
-	
+
 	// EnvRedisUsername is the environment variable for the Redis username
 	EnvRedisUsername = "REDIS_USERNAME"
-	
+
 	// EnvRedisPassword is the environment variable for the Redis password
 	EnvRedisPassword = "REDIS_PASSWORD"
-	
+
 	// EnvRedisDB is the environment variable for the Redis database number
 	EnvRedisDB = "REDIS_DB"
 
@@ -32,13 +32,13 @@ const (
 var (
 	// RedisAddress is the Redis address
 	RedisAddress string
-	
+
 	// RedisUsername is the Redis username
 	RedisUsername string
-	
+
 	// RedisPassword is the Redis password
 	RedisPassword string
-	
+
 	// RedisDB is the Redis database number
 	RedisDB int
 
@@ -82,7 +82,7 @@ func Load() {
 	// Create the redis client
 	Client = redis.NewClient(
 		&redis.Options{
-			Addr: RedisAddress,
+			Addr:     RedisAddress,
 			Username: RedisUsername,
 			Password: RedisPassword,
 			DB:       RedisDB,

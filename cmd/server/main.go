@@ -120,7 +120,7 @@ func main() {
 		syscall.SIGTERM,
 	)
 	defer stop()
-	
+
 	// Connect to the Sync SQLite database
 	if connErr := internalsqlite.SyncService.Connect(ctx); connErr != nil {
 		panic(connErr)
@@ -128,7 +128,7 @@ func main() {
 	if internallogger.Logger != nil {
 		internalloader.Logger.Info("Connected to Sync SQLite database")
 	}
-	
+
 	// Connect to the Token Validator SQLite database
 	if connErr := internaljwt.TokenValidator.Connect(ctx); connErr != nil {
 		panic(connErr)
@@ -153,6 +153,9 @@ func main() {
 		internalgrpcauth.GRPCAuthAPIKey,
 		internallogger.Logger,
 	)
+	if err != nil {
+		panic(err)
+	}
 
 	// Create the gRPC auth client
 	conn, err := grpc.NewClient(

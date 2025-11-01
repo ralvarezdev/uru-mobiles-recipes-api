@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	Module     = &gonethttp.Module{
+	Module = &gonethttp.Module{
 		Pattern: "/user",
 		AddHandlersFn: func(m *gonethttp.Module) {
 			m.AddEndpointHandler(

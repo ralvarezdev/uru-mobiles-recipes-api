@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	Module     = &gonethttp.Module{
+	Module = &gonethttp.Module{
 		Pattern: "/v1",
 		Submodules: gonethttp.NewSubmodules(
 			internalrouterapiv1auth.Module,

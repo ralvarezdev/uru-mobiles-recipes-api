@@ -1,8 +1,8 @@
 package json
 
 import (
-	"path/filepath"
 	"log/slog"
+	"path/filepath"
 
 	goflagsmode "github.com/ralvarezdev/go-flags/mode"
 	goloaderfilesystem "github.com/ralvarezdev/go-loader/filesystem"
@@ -18,10 +18,10 @@ const (
 var (
 	// Handler is the JSON handler in JSend format
 	Handler gonethttphandler.Handler
-	
+
 	// SwaggerJSONDefinitionsFilePath is the file path for the swagger.json definitions
 	SwaggerJSONDefinitionsFilePath string
-	
+
 	// SwaggerJSONDefinitions is the swagger.json definitions content
 	SwaggerJSONDefinitions []byte
 )
@@ -42,19 +42,19 @@ func Load(mode *goflagsmode.Flag, logger *slog.Logger) {
 		panic(err)
 	}
 	Handler = handler
-	
+
 	// Load swagger.json definitions
 	goModPath, err := goloaderfilesystem.GetExecutableGoModPath()
 	if err != nil {
 		panic(err)
 	}
-	
+
 	// Get the swagger.json definitions file path based on the go.mod path
 	SwaggerJSONDefinitionsFilePath = filepath.Join(
 		filepath.Dir(goModPath),
 		SwaggerJSONDefinitionsRelativePath,
 	)
-	
+
 	// Load the swagger.json definitions content
 	fileContent, err := goloaderfilesystem.ReadFile(SwaggerJSONDefinitionsFilePath)
 	if err != nil {

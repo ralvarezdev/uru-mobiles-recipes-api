@@ -1,11 +1,13 @@
-package router
+package docs
 
 import (
 	"net/http"
-	
+
 	gonethttp "github.com/ralvarezdev/go-net/http"
-	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
+	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
+
+	internaljson "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/json"
 )
 
 var (
@@ -22,8 +24,17 @@ var (
 			m.AddHandleFunc(
 				"GET /swagger/swagger.json",
 				func(w http.ResponseWriter, r *http.Request) {
-    				w.Header().Set("Content-Type", "application/json")
-      				w.Write(internaljson.SwaggerJSONDefinitions)
+					w.Header().Set("Content-Type", "application/json")
+					if _, err := w.Write(internaljson.SwaggerJSONDefinitions); err != nil {
+						internaljson.Handler.HandleResponse(
+							w, r,
+							gonethttpresponsejsend.NewDebugErrorResponse(
+								gonethttp.ErrInternalServerError.Error(),
+								err.Error(),
+								http.StatusInternalServerError,
+							),
+						)
+					}
 				},
 			)
 		},
