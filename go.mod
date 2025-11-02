@@ -9,10 +9,10 @@ require (
 	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/ralvarezdev/go-databases v0.8.2
 	github.com/ralvarezdev/go-flags v0.3.8
-	github.com/ralvarezdev/go-grpc v0.6.1
+	github.com/ralvarezdev/go-grpc v0.6.2
 	github.com/ralvarezdev/go-jwt v0.7.4
 	github.com/ralvarezdev/go-loader v0.2.22
-	github.com/ralvarezdev/go-net v0.14.4
+	github.com/ralvarezdev/go-net v0.14.5
 	github.com/ralvarezdev/go-rate-limiter v0.1.11
 	github.com/ralvarezdev/go-security-headers v0.1.4
 	github.com/ralvarezdev/grpc-auth-proto-go v0.1.13
