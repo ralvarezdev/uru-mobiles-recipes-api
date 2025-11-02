@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"log/slog"
 	"net/http"
 
@@ -19,6 +18,8 @@ import (
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	goratelimiter "github.com/ralvarezdev/go-rate-limiter/redis"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	pbempty "google.golang.org/protobuf/types/known/emptypb"
 
 	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
@@ -80,28 +81,31 @@ func RefreshToken(
 	r *http.Request,
 ) (map[gojwttoken.Token]string, error) {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
 		return nil, err
 	}
 
+	// Prepare variables to receive headers
+	var header metadata.MD
+
 	// Call the gRPC service to refresh the token
 	if _, err = internalgrpcauth.Client.RefreshToken(
 		ctx,
 		&pbempty.Empty{},
+		grpc.Header(&header),
 	); err != nil {
 		return nil, gonethttpresponsejsendgrpc.ParseError(err, true)
 	}
 
 	// Get the refreshed tokens from the context
-	refreshToken, err := gogrpcmd.GetCtxMetadataRefreshToken(ctx)
+	refreshToken, err := gogrpcmd.GetMetadataRefreshToken(header)
 	if err != nil {
 		return nil, err
 	}
-	accessToken, err := gogrpcmd.GetCtxMetadataAccessToken(ctx)
+	accessToken, err := gogrpcmd.GetMetadataAccessToken(header)
 	if err != nil {
 		return nil, err
 	}

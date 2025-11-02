@@ -140,7 +140,6 @@ func main() {
 	// Create the auth client JWT authentication interceptor
 	authJWTInterceptor, err := gogrpcclientinterceptorauthjwt.NewInterceptor(
 		pbauth.JWTInterceptions,
-		nil,
 		internallogger.Logger,
 	)
 	if err != nil {

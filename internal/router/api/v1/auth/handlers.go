@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"context"
 	"net/http"
 
 	gogrpcnethttp "github.com/ralvarezdev/go-grpc/client/net/http"
@@ -9,6 +8,8 @@ import (
 	gonethttpresponsejsend "github.com/ralvarezdev/go-net/http/response/jsend"
 	gonethttpresponsejsendgrpc "github.com/ralvarezdev/go-net/http/response/jsend/grpc"
 	pbauth "github.com/ralvarezdev/grpc-auth-proto-go/compiled/ralvarezdev/auth"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	pbempty "google.golang.org/protobuf/types/known/emptypb"
 
 	internalgrpcauth "github.com/ralvarezdev/uru-mobiles-recipes-api/internal/grpc/auth"
@@ -36,7 +37,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) error {
 
 	// Call the gRPC service to sign up the user
 	if _, err := internalgrpcauth.Client.SignUp(
-		context.Background(),
+		r.Context(),
 		requestBody,
 	); err != nil {
 		return gonethttpresponsejsendgrpc.ParseError(err, true)
@@ -70,11 +71,14 @@ func LogIn(w http.ResponseWriter, r *http.Request) error {
 		panic(gonethttpctx.ErrInvalidBodyType)
 	}
 
+	// Prepare variables to receive headers
+	var header metadata.MD
+
 	// Call the gRPC service to log in the user
-	ctx := context.Background()
 	responseBody, err := internalgrpcauth.Client.LogIn(
-		ctx,
+		r.Context(),
 		requestBody,
+		grpc.Header(&header),
 	)
 	if err != nil {
 		return gonethttpresponsejsendgrpc.ParseError(err, true)
@@ -93,7 +97,7 @@ func LogIn(w http.ResponseWriter, r *http.Request) error {
 
 	// Parse the metadata to clear cookies
 	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		ctx,
+		header,
 		w,
 	); parseErr != nil {
 		return parseErr
@@ -125,8 +129,7 @@ func ListRefreshTokens(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -175,8 +178,7 @@ func GetRefreshToken(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -226,25 +228,28 @@ func RevokeRefreshToken(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
 		return err
 	}
 
+	// Prepare variables to receive headers
+	var header metadata.MD
+
 	// Call the gRPC service to revoke the refresh token
 	if _, err = internalgrpcauth.Client.RevokeRefreshToken(
 		ctx,
 		requestBody,
+		grpc.Header(&header),
 	); err != nil {
 		return gonethttpresponsejsendgrpc.ParseError(err, true)
 	}
 
 	// Parse the metadata to clear cookies
 	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		ctx,
+		header,
 		w,
 	); parseErr != nil {
 		return parseErr
@@ -273,25 +278,28 @@ func RevokeRefreshToken(
 // @Router /api/v1/auth/logout [post]
 func LogOut(w http.ResponseWriter, r *http.Request) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
 		return err
 	}
 
+	// Prepare variables to receive headers
+	var header metadata.MD
+
 	// Call the gRPC service to log out
 	if _, err = internalgrpcauth.Client.LogOut(
 		ctx,
 		&pbempty.Empty{},
+		grpc.Header(&header),
 	); err != nil {
 		return gonethttpresponsejsendgrpc.ParseError(err, true)
 	}
 
 	// Parse the metadata to clear cookies
 	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		ctx,
+		header,
 		w,
 	); parseErr != nil {
 		return parseErr
@@ -323,25 +331,28 @@ func RevokeRefreshTokens(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
 		return err
 	}
 
+	// Prepare variables to receive headers
+	var header metadata.MD
+
 	// Call the gRPC service to revoke the refresh tokens
 	if _, err = internalgrpcauth.Client.RevokeRefreshTokens(
 		ctx,
 		&pbempty.Empty{},
+		grpc.Header(&header),
 	); err != nil {
 		return gonethttpresponsejsendgrpc.ParseError(err, true)
 	}
 
 	// Parse the metadata to clear cookies
 	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		ctx,
+		header,
 		w,
 	); parseErr != nil {
 		return parseErr
@@ -370,25 +381,28 @@ func RevokeRefreshTokens(
 // @Router /api/v1/auth/refresh-token [post]
 func RefreshToken(w http.ResponseWriter, r *http.Request) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
 		return err
 	}
 
+	// Prepare variables to receive headers
+	var header metadata.MD
+
 	// Call the gRPC service to refresh the token
 	if _, err = internalgrpcauth.Client.RefreshToken(
 		ctx,
 		&pbempty.Empty{},
+		grpc.Header(&header),
 	); err != nil {
 		return gonethttpresponsejsendgrpc.ParseError(err, true)
 	}
 
 	// Parse the metadata to clear cookies
 	if parseErr := internalgrpcauth.AuthenticationParser.ParseAuthorizationMetadataAsCookie(
-		ctx,
+		header,
 		w,
 	); parseErr != nil {
 		return parseErr
@@ -420,8 +434,7 @@ func Generate2FATOTPUrl(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -471,8 +484,7 @@ func Verify2FATOTP(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -513,8 +525,7 @@ func Revoke2FATOTP(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -563,8 +574,7 @@ func ChangeEmail(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -606,8 +616,7 @@ func SendEmailVerificationToken(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -655,8 +664,7 @@ func VerifyEmail(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -705,8 +713,7 @@ func ChangePassword(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -755,8 +762,7 @@ func ForgotPassword(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -804,8 +810,7 @@ func ResetPassword(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -854,8 +859,7 @@ func ChangePhoneNumber(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -897,8 +901,7 @@ func SendPhoneNumberVerificationCode(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -947,8 +950,7 @@ func VerifyPhoneNumber(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -998,8 +1000,7 @@ func EnableUser2FA(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -1049,8 +1050,7 @@ func DisableUser2FA(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -1099,8 +1099,7 @@ func RegenerateUser2FARecoveryCodes(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -1150,8 +1149,7 @@ func SendUser2FAEmailCode(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {

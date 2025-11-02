@@ -1,7 +1,6 @@
 package user
 
 import (
-	"context"
 	"net/http"
 
 	gogrpcnethttp "github.com/ralvarezdev/go-grpc/client/net/http"
@@ -40,8 +39,7 @@ func UpdateProfile(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -79,8 +77,7 @@ func GetMyProfile(
 	r *http.Request,
 ) error {
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -128,8 +125,7 @@ func ChangeUsername(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {
@@ -176,8 +172,7 @@ func DeleteUser(
 	}
 
 	// Create the context for the gRPC call
-	ctx, err := gogrpcnethttp.SetCtxMetadataAuthorizationToken(
-		context.Background(),
+	ctx, err := gogrpcnethttp.SetOutgoingCtxMetadataAuthorizationToken(
 		r,
 	)
 	if err != nil {

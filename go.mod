@@ -9,13 +9,13 @@ require (
 	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/ralvarezdev/go-databases v0.8.2
 	github.com/ralvarezdev/go-flags v0.3.8
-	github.com/ralvarezdev/go-grpc v0.5.15
+	github.com/ralvarezdev/go-grpc v0.6.1
 	github.com/ralvarezdev/go-jwt v0.7.4
 	github.com/ralvarezdev/go-loader v0.2.22
-	github.com/ralvarezdev/go-net v0.14.2
+	github.com/ralvarezdev/go-net v0.14.4
 	github.com/ralvarezdev/go-rate-limiter v0.1.11
 	github.com/ralvarezdev/go-security-headers v0.1.4
-	github.com/ralvarezdev/grpc-auth-proto-go v0.1.12
+	github.com/ralvarezdev/grpc-auth-proto-go v0.1.13
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.6
 	google.golang.org/grpc v1.76.0
@@ -23,7 +23,6 @@ require (
 )
 
 require (
-	cloud.google.com/go/compute/metadata v0.9.0 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
@@ -39,7 +38,7 @@ require (
 	github.com/go-openapi/swag/yamlutils v0.25.1 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
 	github.com/ralvarezdev/go-api-key v0.1.4 // indirect
-	github.com/ralvarezdev/go-json v0.2.2 // indirect
+	github.com/ralvarezdev/go-json v0.2.3 // indirect
 	github.com/ralvarezdev/go-reflect v0.3.1 // indirect
 	github.com/ralvarezdev/go-strings v0.2.2 // indirect
 	github.com/ralvarezdev/go-validator v0.7.5 // indirect
@@ -49,7 +48,6 @@ require (
 	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/net v0.46.0 // indirect
-	golang.org/x/oauth2 v0.32.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
