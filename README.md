@@ -47,7 +47,9 @@ API docs are generated with `swag` (`generate_docs.sh`) and served via `internal
 
 ## Related repositories
 
-- [`uru-mobiles-recipes-app uru-mobiles-recipes`](https://github.com/ralvarezdev/uru-mobiles-recipes-app uru-mobiles-recipes) — related repository.
+- [`uru-mobiles-recipes-app`](https://github.com/ralvarezdev/uru-mobiles-recipes-app) — matching application.
+- [`uru-mobiles-recipes`](https://github.com/ralvarezdev/uru-mobiles-recipes) — Docker deployment setup.
+
 ## License
 
 GNU General Public License v3.0 (see `LICENSE`).
