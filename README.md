@@ -45,6 +45,9 @@ docker run -p 8080:8080 --env-file .env recipes-api
 
 API docs are generated with `swag` (`generate_docs.sh`) and served via `internal/router/docs` as Swagger UI. Linting via `.golangci.yml`.
 
+## Related repositories
+
+- [`uru-mobiles-recipes-app uru-mobiles-recipes`](https://github.com/ralvarezdev/uru-mobiles-recipes-app uru-mobiles-recipes) — related repository.
 ## License
 
 GNU General Public License v3.0 (see `LICENSE`).
